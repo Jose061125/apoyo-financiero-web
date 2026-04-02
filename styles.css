@@ -62,6 +62,16 @@ body {
 .beneficio-item { background: #fff; border: 1px solid #dbe7f5; border-radius: 12px; color: #1d3f6d; padding: 16px; font-weight: 600; box-shadow: 0 8px 20px rgba(98, 125, 173, 0.09); }
 .form-section { background: #fff; padding: 24px; border-radius: 16px; box-shadow: 0 8px 20px rgba(31, 58, 95, 0.08); margin-bottom: 24px; }
 .form-section h2 { margin-top: 0; }
+.registro-prueba-social { margin: 16px 0 20px; padding: 14px 16px; background: linear-gradient(130deg, rgba(32, 71, 155, 0.08), rgba(20, 127, 181, 0.1)); border: 1px solid rgba(22, 79, 155, 0.2); border-radius: 12px; text-align: center; }
+.registro-prueba-social p { margin: 0; color: #144f88; font-weight: 700; font-size: 1.03rem; }
+#contador-registros { color: #0f3e8f; font-size: 1.3rem; }
+.referencia { margin: 20px 0 24px; }
+.ref-box { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 8px 0; }
+.ref-box input { width: 225px; max-width: 100%; border: 1px solid #bccde5; border-radius: 10px; padding: 10px; }
+.qr-result { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 10px; }
+.qr-result img { width: 170px; height: 170px; border-radius: 12px; border: 1px solid #c9ddf3; box-shadow: 0 8px 16px rgba(23, 60, 103, 0.14); }
+.qr-result p { color: #1d4676; font-size: 0.93rem; }
+@media (max-width: 720px) { .ref-box { flex-direction: column; align-items: stretch; } }
 .beneficios-rapidos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 20px 0 18px; }
 .beneficio-card { background: linear-gradient(135deg, #eff8ff 0%, #dcecff 100%); border: 1px solid #b8d7f3; border-radius: 12px; padding: 14px; transition: transform 0.25s ease, box-shadow 0.25s ease; }
 .beneficio-card h3 { margin: 0 0 8px; font-size: 1rem; color: #154c8f; }

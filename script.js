@@ -155,11 +155,60 @@ formAhorro.addEventListener('submit', function (event) {
 
   const meta = Number(metaCampo.value);
   const meses = Number(mesesCampo.value);
-
   const ahorroMensual = meta / meses;
   resultado.style.color = '#0f3e8f';
   resultado.textContent = `Debes ahorrar ${ahorroMensual.toLocaleString('es-CO', { style: 'currency', currency: 'COP' })} al mes durante ${meses} meses para alcanzar ${meta.toLocaleString('es-CO', { style: 'currency', currency: 'COP' })}.`;
   resultado.classList.add('show');
+});
+
+// ------ Referencia y QR ------
+function getQueryStringParam(param) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
+}
+
+function actualizarMensajeReferencia() {
+  const ref = getQueryStringParam('ref');
+  const mensaje = document.getElementById('mensaje-referencia');
+  if (!mensaje) return;
+
+  if (ref) {
+    localStorage.setItem('referralCode', ref);
+    mensaje.textContent = `Has ingresado con la referencia de: ${ref}. ¡Gracias por confiar en tu amigo!`;
+  } else {
+    const guardado = localStorage.getItem('referralCode');
+    if (guardado) {
+      mensaje.textContent = `Tu referencia activa es: ${guardado}. Comparte tu link con tus amigos.`;
+    } else {
+      mensaje.textContent = 'No se detectó referencia. Puedes generar tu propio QR abajo.';
+    }
+  }
+}
+
+function generarQR() {
+  const codigo = document.getElementById('referencia-code').value.trim() || 'invitado';
+  const url = `${window.location.origin}${window.location.pathname}?ref=${encodeURIComponent(codigo)}`;
+  const qrImage = document.getElementById('qr-image');
+  const qrLink = document.getElementById('qr-enlace');
+
+  const qrcodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`;
+  qrImage.src = qrcodeUrl;
+  qrImage.hidden = false;
+  qrLink.textContent = url;
+  qrLink.href = url;
+  qrLink.hidden = false;
+  qrLink.style.color = '#1d4f8b';
+  qrLink.style.textDecoration = 'underline';
+  qrLink.target = '_blank';
+}
+
+document.getElementById('btn-generar-qr').addEventListener('click', function (event) {
+  event.preventDefault();
+  generarQR();
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  actualizarMensajeReferencia();
 });
 
 const formContacto = document.getElementById('formulario-contacto');

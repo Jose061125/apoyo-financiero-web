@@ -146,6 +146,21 @@
       <div id="resultado" class="resultado"></div>
     </section>
 
+    <section id="referencia" class="form-section">
+      <h2>Comparte tu link con QR</h2>
+      <p id="mensaje-referencia">Comparte tu enlace de invitación para que tus amigos lleguen con tu referencia.</p>
+
+      <div class="ref-box">
+        <input id="referencia-code" type="text" placeholder="TU_USUARIO123" value="" />
+        <button id="btn-generar-qr" class="btn btn-secondary">Generar QR de referencia</button>
+      </div>
+
+      <div class="qr-result">
+        <img id="qr-image" src="" alt="QR de referencia" hidden />
+        <a id="qr-enlace" href="#" target="_blank" rel="noopener" hidden></a>
+      </div>
+    </section>
+
     <section id="registro" class="form-section">
       <h2>Activa tu plan VIP de finanzas personales</h2>
       <p>Regístrate ahora y desbloquea una ruta con contenido exclusivo, retos semanales de ahorro y sesiones rápidas de planificación.</p>
@@ -163,6 +178,10 @@
           <h3>🎯 Evaluación de objetivos</h3>
           <p>Obtén recomendaciones de metas personalizadas según tu perfil.</p>
         </article>
+      </div>
+
+      <div class="registro-prueba-social">
+        <p><strong id="contador-registros">47</strong> personas se unieron en la última semana. ¡Sé el siguiente!</p>
       </div>
 
       <form id="formulario-registro" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
