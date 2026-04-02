@@ -22,7 +22,7 @@
           <li><a href="#testimonios">Testimonios</a></li>
           <li><a href="#faq">FAQ</a></li>
           <li><a href="#garantias">Garantías</a></li>
-          <li><a href="#registro">Registro</a></li>
+          <li><a href="registro.html">Registro</a></li>
           <li><a href="#contacto">Contacto</a></li>
         </ul>
       </div>
@@ -152,86 +152,10 @@
       </article>
     </section>
 
-    <section id="referencia" class="form-section">
-      <h2>Comparte tu link con QR</h2>
-      <p id="mensaje-referencia">Comparte tu enlace de invitación para que tus amigos lleguen con tu referencia.</p>
-
-      <div class="ref-box">
-        <input id="referencia-code" type="text" placeholder="TU_USUARIO123" value="" />
-        <button id="btn-generar-qr" class="btn btn-secondary">Generar QR de referencia</button>
-      </div>
-
-      <div class="qr-result">
-        <img id="qr-image" src="" alt="QR de referencia" hidden />
-        <a id="qr-enlace" href="#" target="_blank" rel="noopener" hidden></a>
-      </div>
-    </section>
-
     <section id="productos" class="form-section">
       <h2>Productos premium</h2>
       <p>Elige tu herramienta financiera según tus metas.</p>
       <div class="productos-grid" id="productos-grid"></div>
-    </section>
-
-    <section id="dashboard" class="form-section hidden">
-      <h2>Mi Dashboard</h2>
-      <p>Detalles de tu cuenta y tus logros financieros.</p>
-      <div id="user-info" class="dashboard-card"></div>
-      <div id="user-ref" class="dashboard-card"></div>
-      <button id="logout-user-btn" class="btn btn-secondary">Cerrar sesión</button>
-    </section>
-
-    <section id="registro" class="form-section">
-      <h2>Activa tu plan VIP de finanzas personales</h2>
-      <p>Regístrate ahora y desbloquea una ruta con contenido exclusivo, retos semanales de ahorro y sesiones rápidas de planificación.</p>
-
-      <div class="beneficios-rapidos">
-        <article class="beneficio-card">
-          <h3>✅ Plan de acción instantáneo</h3>
-          <p>Recibe 3 pasos concretos para mejorar tu flujo de caja en 7 días.</p>
-        </article>
-        <article class="beneficio-card">
-          <h3>📈 Hoja financiera lista</h3>
-          <p>Descarga una plantilla para seguir tu ahorro y deudas de forma simple.</p>
-        </article>
-        <article class="beneficio-card">
-          <h3>🎯 Evaluación de objetivos</h3>
-          <p>Obtén recomendaciones de metas personalizadas según tu perfil.</p>
-        </article>
-      </div>
-
-      <div class="registro-prueba-social">
-        <p><strong id="contador-registros">47</strong> personas se unieron en la última semana. ¡Sé el siguiente!</p>
-      </div>
-
-      <form id="formulario-registro" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-        <label for="reg-nombre">Nombre completo</label>
-        <input type="text" id="reg-nombre" name="nombre" required />
-
-        <label for="reg-email">Correo electrónico</label>
-        <input type="email" id="reg-email" name="email" required />
-
-        <label for="reg-telefono">Teléfono (opcional)</label>
-        <input type="tel" id="reg-telefono" name="telefono" />
-
-        <label for="reg-objetivo">¿Cuál es tu objetivo financiero principal?</label>
-        <select id="reg-objetivo" name="objetivo" required>
-          <option value="">Selecciona una opción</option>
-          <option value="ahorrar">Ahorrar más dinero</option>
-          <option value="deudas">Salir de deudas</option>
-          <option value="invertir">Aprender a invertir</option>
-          <option value="emprender">Emprender un negocio</option>
-          <option value="otro">Otro</option>
-        </select>
-
-        <div class="checkbox-group">
-          <input type="checkbox" id="reg-newsletter" name="newsletter" checked />
-          <label for="reg-newsletter">Quiero recibir el newsletter semanal con consejos financieros</label>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Registrarme</button>
-      </form>
-      <div id="mensaje-registro" class="resultado"></div>
     </section>
 
     <section id="contacto" class="form-section">
