@@ -1,40 +1,176 @@
-﻿const formAhorro = document.getElementById('formulario-ahorro');
-const resultado = document.getElementById('resultado');
+﻿// Funciones de validación en tiempo real
+function validarCampoRequerido(campo, mensajeError) {
+  const valor = campo.value.trim();
+  const errorDiv = campo.parentNode.querySelector('.error-message') || crearMensajeError(campo);
+
+  if (!valor) {
+    mostrarError(campo, errorDiv, mensajeError || 'Este campo es obligatorio.');
+    return false;
+  } else {
+    ocultarError(campo, errorDiv);
+    return true;
+  }
+}
+
+function validarEmail(campo) {
+  const valor = campo.value.trim();
+  const errorDiv = campo.parentNode.querySelector('.error-message') || crearMensajeError(campo);
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!valor) {
+    mostrarError(campo, errorDiv, 'El email es obligatorio.');
+    return false;
+  } else if (!emailRegex.test(valor)) {
+    mostrarError(campo, errorDiv, 'Ingresa un email válido.');
+    return false;
+  } else {
+    ocultarError(campo, errorDiv);
+    return true;
+  }
+}
+
+function validarNumero(campo, min = 0) {
+  const valor = Number(campo.value);
+  const errorDiv = campo.parentNode.querySelector('.error-message') || crearMensajeError(campo);
+
+  if (isNaN(valor) || valor <= min) {
+    mostrarError(campo, errorDiv, `Ingresa un número mayor a ${min}.`);
+    return false;
+  } else {
+    ocultarError(campo, errorDiv);
+    return true;
+  }
+}
+
+function crearMensajeError(campo) {
+  const errorDiv = document.createElement('div');
+  errorDiv.className = 'error-message';
+  campo.parentNode.insertBefore(errorDiv, campo.nextSibling);
+  return errorDiv;
+}
+
+function mostrarError(campo, errorDiv, mensaje) {
+  campo.classList.add('error');
+  campo.classList.remove('success');
+  errorDiv.textContent = mensaje;
+  errorDiv.style.display = 'block';
+}
+
+function ocultarError(campo, errorDiv) {
+  campo.classList.remove('error');
+  campo.classList.add('success');
+  errorDiv.style.display = 'none';
+}
+
+function mostrarCargando(elemento, mensaje = 'Enviando...') {
+  elemento.classList.add('loading');
+  elemento.textContent = mensaje;
+  elemento.disabled = true;
+}
+
+function ocultarCargando(elemento, textoOriginal) {
+  elemento.classList.remove('loading');
+  elemento.textContent = textoOriginal;
+  elemento.disabled = false;
+}
+
+// Aplicar validaciones en tiempo real
+function agregarValidaciones(formulario) {
+  const camposRequeridos = formulario.querySelectorAll('input[required], select[required], textarea[required]');
+  const emails = formulario.querySelectorAll('input[type="email"]');
+  const numeros = formulario.querySelectorAll('input[type="number"]');
+
+  camposRequeridos.forEach(campo => {
+    campo.addEventListener('blur', () => validarCampoRequerido(campo));
+    campo.addEventListener('input', () => {
+      if (campo.classList.contains('error')) {
+        validarCampoRequerido(campo);
+      }
+    });
+  });
+
+  emails.forEach(campo => {
+    campo.addEventListener('blur', () => validarEmail(campo));
+    campo.addEventListener('input', () => {
+      if (campo.classList.contains('error')) {
+        validarEmail(campo);
+      }
+    });
+  });
+
+  numeros.forEach(campo => {
+    campo.addEventListener('blur', () => validarNumero(campo));
+    campo.addEventListener('input', () => {
+      if (campo.classList.contains('error')) {
+        validarNumero(campo);
+      }
+    });
+  });
+}
+
+const formAhorro = document.getElementById('formulario-ahorro');
+
+// Agregar validaciones en tiempo real al formulario de ahorro
+agregarValidaciones(formAhorro);
 
 formAhorro.addEventListener('submit', function (event) {
   event.preventDefault();
 
-  const meta = Number(document.getElementById('meta').value);
-  const meses = Number(document.getElementById('meses').value);
+  const metaCampo = document.getElementById('meta');
+  const mesesCampo = document.getElementById('meses');
 
-  if (!meta || !meses || meta <= 0 || meses <= 0) {
-    resultado.textContent = 'Ingresa valores válidos para meta y plazo.';
+  const metaValida = validarNumero(metaCampo, 0);
+  const mesesValida = validarNumero(mesesCampo, 0);
+
+  if (!metaValida || !mesesValida) {
+    resultado.textContent = 'Corrige los errores antes de calcular.';
     resultado.style.color = '#b81f1f';
+    resultado.classList.add('show');
     return;
   }
+
+  const meta = Number(metaCampo.value);
+  const meses = Number(mesesCampo.value);
 
   const ahorroMensual = meta / meses;
   resultado.style.color = '#0f3e8f';
   resultado.textContent = `Debes ahorrar ${ahorroMensual.toLocaleString('es-CO', { style: 'currency', currency: 'COP' })} al mes durante ${meses} meses para alcanzar ${meta.toLocaleString('es-CO', { style: 'currency', currency: 'COP' })}.`;
-});
+  resultado.classList.add('show'););
 
 const formContacto = document.getElementById('formulario-contacto');
 const msgContacto = document.getElementById('mensaje-envio');
+const btnContacto = formContacto.querySelector('button[type="submit"]');
+
+// Agregar validaciones en tiempo real al formulario de contacto
+agregarValidaciones(formContacto);
 
 formContacto.addEventListener('submit', function (event) {
   event.preventDefault();
-  const nombre = document.getElementById('nombre').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const mensaje = document.getElementById('mensaje').value.trim();
 
-  if (!nombre || !email || !mensaje) {
-    msgContacto.textContent = 'Completa todos los campos antes de enviar.';
+  const nombreCampo = document.getElementById('nombre');
+  const emailCampo = document.getElementById('email');
+  const mensajeCampo = document.getElementById('mensaje');
+
+  const nombreValido = validarCampoRequerido(nombreCampo, 'El nombre es obligatorio.');
+  const emailValido = validarEmail(emailCampo);
+  const mensajeValido = validarCampoRequerido(mensajeCampo, 'El mensaje es obligatorio.');
+
+  if (!nombreValido || !emailValido || !mensajeValido) {
+    msgContacto.textContent = 'Corrige los errores antes de enviar.';
     msgContacto.style.color = '#b81f1f';
+    msgContacto.classList.add('show');
     return;
   }
 
+  const nombre = nombreCampo.value.trim();
+  const email = emailCampo.value.trim();
+  const mensaje = mensajeCampo.value.trim();
+
+  mostrarCargando(btnContacto, 'Enviando...');
+
   msgContacto.style.color = '#0f3e8f';
   msgContacto.textContent = `¡Gracias ${nombre}! Tu mensaje ha sido recibido. Te responderemos pronto a ${email}.`;
+  msgContacto.classList.add('show');
   formContacto.reset();
 
   // Enviar datos a Formspree (reemplazar 'YOUR_FORM_ID' por tu ID real)
@@ -58,33 +194,54 @@ formContacto.addEventListener('submit', function (event) {
   })
   .then(() => {
     msgContacto.textContent = 'Mensaje enviado correctamente. Gracias por escribirnos.';
+    msgContacto.classList.add('show');
+    ocultarCargando(btnContacto, 'Enviar mensaje');
   })
   .catch(() => {
     msgContacto.textContent = 'Ocurrió un error al enviar. Intenta de nuevo.';
     msgContacto.style.color = '#b81f1f';
+    msgContacto.classList.add('show');
+    ocultarCargando(btnContacto, 'Enviar mensaje');
   });
 });
 
 // Formulario de registro
 const formRegistro = document.getElementById('formulario-registro');
 const msgRegistro = document.getElementById('mensaje-registro');
+const btnRegistro = formRegistro.querySelector('button[type="submit"]');
+
+// Agregar validaciones en tiempo real al formulario de registro
+agregarValidaciones(formRegistro);
 
 formRegistro.addEventListener('submit', function (event) {
   event.preventDefault();
-  const nombre = document.getElementById('reg-nombre').value.trim();
-  const email = document.getElementById('reg-email').value.trim();
-  const telefono = document.getElementById('reg-telefono').value.trim();
-  const objetivo = document.getElementById('reg-objetivo').value;
-  const newsletter = document.getElementById('reg-newsletter').checked;
 
-  if (!nombre || !email || !objetivo) {
-    msgRegistro.textContent = 'Completa los campos obligatorios antes de registrarte.';
+  const nombreCampo = document.getElementById('reg-nombre');
+  const emailCampo = document.getElementById('reg-email');
+  const objetivoCampo = document.getElementById('reg-objetivo');
+
+  const nombreValido = validarCampoRequerido(nombreCampo, 'El nombre es obligatorio.');
+  const emailValido = validarEmail(emailCampo);
+  const objetivoValido = validarCampoRequerido(objetivoCampo, 'Selecciona un objetivo.');
+
+  if (!nombreValido || !emailValido || !objetivoValido) {
+    msgRegistro.textContent = 'Corrige los errores antes de registrarte.';
     msgRegistro.style.color = '#b81f1f';
+    msgRegistro.classList.add('show');
     return;
   }
 
+  const nombre = nombreCampo.value.trim();
+  const email = emailCampo.value.trim();
+  const telefono = document.getElementById('reg-telefono').value.trim();
+  const objetivo = objetivoCampo.value;
+  const newsletter = document.getElementById('reg-newsletter').checked;
+
+  mostrarCargando(btnRegistro, 'Registrando...');
+
   msgRegistro.style.color = '#0f3e8f';
   msgRegistro.textContent = `¡Bienvenido ${nombre}! Te has registrado exitosamente. Recibirás información en ${email}.`;
+  msgRegistro.classList.add('show');
   formRegistro.reset();
 
   // Almacenar registro en localStorage
@@ -125,10 +282,14 @@ formRegistro.addEventListener('submit', function (event) {
   })
   .then(() => {
     msgRegistro.textContent = 'Registro enviado correctamente. ¡Bienvenido a la comunidad!';
+    msgRegistro.classList.add('show');
+    ocultarCargando(btnRegistro, 'Registrarme');
   })
   .catch(() => {
     msgRegistro.textContent = 'Registro guardado localmente. Hubo un error al enviar, pero puedes continuar.';
     msgRegistro.style.color = '#b81f1f';
+    msgRegistro.classList.add('show');
+    ocultarCargando(btnRegistro, 'Registrarme');
   });
 });
 
@@ -169,20 +330,31 @@ modal.addEventListener('click', (event) => {
   }
 });
 
+// Agregar validaciones en tiempo real al formulario de contratación
+agregarValidaciones(formContratar);
+
 formContratar.addEventListener('submit', function (event) {
   event.preventDefault();
 
-  const clienteNombre = document.getElementById('cliente-nombre').value.trim();
-  const clienteEmail = document.getElementById('cliente-email').value.trim();
-  const clienteTelefono = document.getElementById('cliente-telefono').value.trim();
+  const nombreCampo = document.getElementById('cliente-nombre');
+  const emailCampo = document.getElementById('cliente-email');
+  const telefonoCampo = document.getElementById('cliente-telefono');
   const plan = planOculto.value;
 
-  if (!clienteNombre || !clienteEmail || !clienteTelefono || !plan) {
-    confirmacionContrato.textContent = 'Por favor completa todos los datos para procesar la solicitud.';
+  const nombreValido = validarCampoRequerido(nombreCampo, 'El nombre es obligatorio.');
+  const emailValido = validarEmail(emailCampo);
+  const telefonoValido = validarCampoRequerido(telefonoCampo, 'El teléfono es obligatorio.');
+
+  if (!nombreValido || !emailValido || !telefonoValido || !plan) {
+    confirmacionContrato.textContent = 'Corrige los errores antes de enviar la solicitud.';
     confirmacionContrato.style.color = '#b81f1f';
     confirmacionContrato.classList.add('show');
     return;
   }
+
+  const clienteNombre = nombreCampo.value.trim();
+  const clienteEmail = emailCampo.value.trim();
+  const clienteTelefono = telefonoCampo.value.trim();
 
   confirmacionContrato.textContent = `¡Solicitud enviada! Nos pondremos en contacto (plan: ${plan}).`;
   confirmacionContrato.style.color = '#0f3e8f';
