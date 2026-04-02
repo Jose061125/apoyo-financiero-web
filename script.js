@@ -129,6 +129,7 @@ function agregarValidaciones(formulario) {
 }
 
 const formAhorro = document.getElementById('formulario-ahorro');
+const resultado = document.getElementById('resultado');
 
 // Contador animado prueba social
 animarContadorRegistros(47);
@@ -159,6 +160,7 @@ formAhorro.addEventListener('submit', function (event) {
   resultado.style.color = '#0f3e8f';
   resultado.textContent = `Debes ahorrar ${ahorroMensual.toLocaleString('es-CO', { style: 'currency', currency: 'COP' })} al mes durante ${meses} meses para alcanzar ${meta.toLocaleString('es-CO', { style: 'currency', currency: 'COP' })}.`;
   resultado.classList.add('show');
+});
 
 const formContacto = document.getElementById('formulario-contacto');
 const msgContacto = document.getElementById('mensaje-envio');
