@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="manifest" href="manifest.json">
 </head>
 <body>
   <header class="site-header">
@@ -16,6 +16,7 @@
         <a href="index.html" class="logo">Apoyo Financiero</a>
         <ul class="nav-list">
           <li><a href="index.html">Volver al sitio</a></li>
+          <li><button id="theme-toggle" class="theme-btn" aria-label="Cambiar tema">🌙</button></li>
         </ul>
       </div>
     </nav>
@@ -47,8 +48,8 @@
 
       <div class="progress-bar">
         <div class="step active" data-step="1">Información Personal</div>
-        <div class="step" data-step="2">Objetivos Financieros</div>
-        <div class="step" data-step="3">Confirmación</div>
+        <div class="step" data-step="2"></div>
+        <div class="step" data-step="3"></div>
       </div>
 
       <form id="formulario-registro" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
