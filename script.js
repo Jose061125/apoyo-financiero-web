@@ -65,6 +65,73 @@ formContacto.addEventListener('submit', function (event) {
   });
 });
 
+// Formulario de registro
+const formRegistro = document.getElementById('formulario-registro');
+const msgRegistro = document.getElementById('mensaje-registro');
+
+formRegistro.addEventListener('submit', function (event) {
+  event.preventDefault();
+  const nombre = document.getElementById('reg-nombre').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const telefono = document.getElementById('reg-telefono').value.trim();
+  const objetivo = document.getElementById('reg-objetivo').value;
+  const newsletter = document.getElementById('reg-newsletter').checked;
+
+  if (!nombre || !email || !objetivo) {
+    msgRegistro.textContent = 'Completa los campos obligatorios antes de registrarte.';
+    msgRegistro.style.color = '#b81f1f';
+    return;
+  }
+
+  msgRegistro.style.color = '#0f3e8f';
+  msgRegistro.textContent = `¡Bienvenido ${nombre}! Te has registrado exitosamente. Recibirás información en ${email}.`;
+  formRegistro.reset();
+
+  // Almacenar registro en localStorage
+  const registro = {
+    nombre: nombre,
+    email: email,
+    telefono: telefono,
+    objetivo: objetivo,
+    newsletter: newsletter,
+    fecha: new Date().toISOString()
+  };
+
+  const stored = JSON.parse(localStorage.getItem('registrosUsuarios') || '[]');
+  stored.push(registro);
+  localStorage.setItem('registrosUsuarios', JSON.stringify(stored));
+
+  // Enviar datos a Formspree (reemplazar 'YOUR_FORM_ID' por tu ID real)
+  fetch('https://formspree.io/f/YOUR_FORM_ID', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      nombre: nombre,
+      email: email,
+      telefono: telefono,
+      objetivo: objetivo,
+      newsletter: newsletter ? 'Sí' : 'No',
+      tipo: 'Registro de usuario'
+    })
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Error al enviar el registro');
+    }
+    return response.json();
+  })
+  .then(() => {
+    msgRegistro.textContent = 'Registro enviado correctamente. ¡Bienvenido a la comunidad!';
+  })
+  .catch(() => {
+    msgRegistro.textContent = 'Registro guardado localmente. Hubo un error al enviar, pero puedes continuar.';
+    msgRegistro.style.color = '#b81f1f';
+  });
+});
+
 // Modal de contratación de planes
 const modal = document.getElementById('modal');
 const planSeleccionado = document.getElementById('plan-seleccionado');

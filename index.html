@@ -21,6 +21,7 @@
           <li><a href="#testimonios">Testimonios</a></li>
           <li><a href="#faq">FAQ</a></li>
           <li><a href="#calculadora">Calculadora</a></li>
+          <li><a href="#registro">Registro</a></li>
           <li><a href="#contacto">Contacto</a></li>
         </ul>
       </div>
@@ -143,6 +144,39 @@
         <button type="submit" class="btn btn-primary">Calcular</button>
       </form>
       <div id="resultado" class="resultado"></div>
+    </section>
+
+    <section id="registro" class="form-section">
+      <h2>Regístrate para recibir consejos financieros</h2>
+      <p>Únete a nuestra comunidad y recibe tips personalizados, guías gratuitas y acceso anticipado a nuevos planes.</p>
+      <form id="formulario-registro" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <label for="reg-nombre">Nombre completo</label>
+        <input type="text" id="reg-nombre" name="nombre" required />
+
+        <label for="reg-email">Correo electrónico</label>
+        <input type="email" id="reg-email" name="email" required />
+
+        <label for="reg-telefono">Teléfono (opcional)</label>
+        <input type="tel" id="reg-telefono" name="telefono" />
+
+        <label for="reg-objetivo">¿Cuál es tu objetivo financiero principal?</label>
+        <select id="reg-objetivo" name="objetivo" required>
+          <option value="">Selecciona una opción</option>
+          <option value="ahorrar">Ahorrar más dinero</option>
+          <option value="deudas">Salir de deudas</option>
+          <option value="invertir">Aprender a invertir</option>
+          <option value="emprender">Emprender un negocio</option>
+          <option value="otro">Otro</option>
+        </select>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="reg-newsletter" name="newsletter" checked />
+          <label for="reg-newsletter">Quiero recibir el newsletter semanal con consejos financieros</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Registrarme</button>
+      </form>
+      <div id="mensaje-registro" class="resultado"></div>
     </section>
 
     <section id="contacto" class="form-section">
