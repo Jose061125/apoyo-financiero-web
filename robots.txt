@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://Jose061125.github.io/apoyo-financiero-web/sitemap.xml</content>
+<parameter name="filePath">c:\MisProyectos\apoyo-financiero-web\robots.txt
