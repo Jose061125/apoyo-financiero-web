@@ -215,6 +215,9 @@ document.addEventListener('DOMContentLoaded', function () {
   if (localStorage.getItem('adminLogged') === 'true') {
     mostrarPanelAdmin();
   }
+  if (localStorage.getItem('userLogged')) {
+    mostrarDashboardUsuario();
+  }
 });
 
 // Productos
@@ -288,9 +291,49 @@ logoutBtn.addEventListener('click', function (event) {
   event.preventDefault();
   localStorage.removeItem('adminLogged');
   ocultarPanelAdmin();
-  loginMsg.textContent = 'Sesion cerrada.';
+  loginMsg.textContent = 'Sesión cerrada.';
   loginMsg.style.color = '#0f3e8f';
 });
+
+function mostrarDashboardUsuario() {
+  const dashboard = document.getElementById('dashboard');
+  const userInfo = document.getElementById('user-info');
+  const userRef = document.getElementById('user-ref');
+  const userLogged = JSON.parse(localStorage.getItem('userLogged'));
+  const refCode = localStorage.getItem('referralCode') || 'No hay referencia';
+
+  if (!dashboard || !userInfo || !userRef || !userLogged) return;
+
+  dashboard.classList.remove('hidden');
+
+  userInfo.innerHTML = `
+    <p><strong>Nombre:</strong> ${userLogged.nombre}</p>
+    <p><strong>Email:</strong> ${userLogged.email}</p>
+    <p><strong>Objetivo:</strong> ${userLogged.objetivo}</p>
+    <p><strong>Registrado:</strong> ${new Date(userLogged.fechaRegistro).toLocaleString()}</p>
+  `;
+
+  userRef.innerHTML = `
+    <p><strong>Referencia activa:</strong> ${refCode}</p>
+    <p>Comparte este enlace: <br><a href="${window.location.origin}${window.location.pathname}?ref=${encodeURIComponent(refCode)}">${window.location.origin}${window.location.pathname}?ref=${encodeURIComponent(refCode)}</a></p>
+  `;
+}
+
+function ocultarDashboardUsuario() {
+  const dashboard = document.getElementById('dashboard');
+  if (!dashboard) return;
+  dashboard.classList.add('hidden');
+}
+
+const logoutUserBtn = document.getElementById('logout-user-btn');
+if (logoutUserBtn) {
+  logoutUserBtn.addEventListener('click', function (event) {
+    event.preventDefault();
+    localStorage.removeItem('userLogged');
+    ocultarDashboardUsuario();
+    document.getElementById('mensaje-registro').textContent = 'Sesión de usuario cerrada.';
+  });
+}
 
 const formContacto = document.getElementById('formulario-contacto');
 const msgContacto = document.getElementById('mensaje-envio');
@@ -392,12 +435,18 @@ formRegistro.addEventListener('submit', function (event) {
   const objetivo = objetivoCampo.value;
   const newsletter = document.getElementById('reg-newsletter').checked;
 
+  // Guardar sesión de usuario
+  const usuarioActual = { nombre, email, objetivo, newsletter, fechaRegistro: new Date().toISOString() };
+  localStorage.setItem('userLogged', JSON.stringify(usuarioActual));
+
   mostrarCargando(btnRegistro, 'Registrando...');
 
   msgRegistro.style.color = '#0f3e8f';
   msgRegistro.textContent = `¡Bienvenido ${nombre}! Te has registrado exitosamente. Recibirás información en ${email}.`;
   msgRegistro.classList.add('show');
   formRegistro.reset();
+
+  mostrarDashboardUsuario();
 
   // Almacenar registro en localStorage
   const registro = {

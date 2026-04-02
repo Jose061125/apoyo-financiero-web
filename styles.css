@@ -85,6 +85,8 @@ body {
 .producto-card p { margin: 0 0 10px; color: #456b8d; font-size: 0.9rem; }
 .producto-card .precio { font-size: 1.1rem; font-weight: 700; color: #0852a4; }
 .producto-card .badge { display: inline-block; border-radius: 999px; font-size: 0.78rem; padding: 4px 8px; background: #edf8ff; color: #0c5d9f; margin-top: 6px; }
+.dashboard-card { background: #f8fbff; border: 1px solid #cce1f7; border-radius: 12px; padding: 14px; margin-bottom: 10px; color: #164a7f; }
+.dashboard-card strong { color: #0f3c7c; }
 .testimonios-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(235px, 1fr)); gap: 12px; }
 .testimonio { background: #fff; border: 1px solid #d9e7f7; padding: 16px; border-radius: 12px; box-shadow: 0 6px 18px rgba(23, 43, 78, 0.08); }
 .testimonio p { margin-bottom: 10px; color: #1a3861; font-style: italic; }
