@@ -62,6 +62,26 @@ function ocultarError(campo, errorDiv) {
   errorDiv.style.display = 'none';
 }
 
+// Contador animado de prueba social
+function animarContadorRegistros(valorFinal, duracion = 1500) {
+  const elemento = document.getElementById('contador-registros');
+  if (!elemento) return;
+
+  const inicio = 0;
+  const paso = Math.ceil(valorFinal / (duracion / 30));
+  let actual = inicio;
+
+  const interval = setInterval(() => {
+    actual += paso;
+    if (actual >= valorFinal) {
+      elemento.textContent = String(valorFinal);
+      clearInterval(interval);
+    } else {
+      elemento.textContent = String(actual);
+    }
+  }, 30);
+}
+
 function mostrarCargando(elemento, mensaje = 'Enviando...') {
   elemento.classList.add('loading');
   elemento.textContent = mensaje;
@@ -110,6 +130,9 @@ function agregarValidaciones(formulario) {
 
 const formAhorro = document.getElementById('formulario-ahorro');
 
+// Contador animado prueba social
+animarContadorRegistros(47);
+
 // Agregar validaciones en tiempo real al formulario de ahorro
 agregarValidaciones(formAhorro);
 
@@ -135,7 +158,7 @@ formAhorro.addEventListener('submit', function (event) {
   const ahorroMensual = meta / meses;
   resultado.style.color = '#0f3e8f';
   resultado.textContent = `Debes ahorrar ${ahorroMensual.toLocaleString('es-CO', { style: 'currency', currency: 'COP' })} al mes durante ${meses} meses para alcanzar ${meta.toLocaleString('es-CO', { style: 'currency', currency: 'COP' })}.`;
-  resultado.classList.add('show'););
+  resultado.classList.add('show');
 
 const formContacto = document.getElementById('formulario-contacto');
 const msgContacto = document.getElementById('mensaje-envio');
