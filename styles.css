@@ -78,6 +78,13 @@ body {
 .beneficio-card p { margin: 0; color: #28517d; font-size: 0.92rem; }
 .beneficio-card:hover { transform: translateY(-5px); box-shadow: 0 16px 30px rgba(20, 80, 140, 0.2); }
 @media (max-width: 720px) { .beneficios-rapidos { grid-template-columns: 1fr; } }
+.productos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; margin-top: 16px; }
+.producto-card { background: #fff; border: 1px solid #dbe8f5; border-radius: 12px; padding: 14px; box-shadow: 0 8px 20px rgba(32, 68, 120, 0.08); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.producto-card:hover { transform: translateY(-3px); box-shadow: 0 14px 26px rgba(32, 68, 120, 0.2); }
+.producto-card h3 { margin: 0 0 8px; color: #134d8f; }
+.producto-card p { margin: 0 0 10px; color: #456b8d; font-size: 0.9rem; }
+.producto-card .precio { font-size: 1.1rem; font-weight: 700; color: #0852a4; }
+.producto-card .badge { display: inline-block; border-radius: 999px; font-size: 0.78rem; padding: 4px 8px; background: #edf8ff; color: #0c5d9f; margin-top: 6px; }
 .testimonios-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(235px, 1fr)); gap: 12px; }
 .testimonio { background: #fff; border: 1px solid #d9e7f7; padding: 16px; border-radius: 12px; box-shadow: 0 6px 18px rgba(23, 43, 78, 0.08); }
 .testimonio p { margin-bottom: 10px; color: #1a3861; font-style: italic; }

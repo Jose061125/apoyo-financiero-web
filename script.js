@@ -174,7 +174,9 @@ function actualizarMensajeReferencia() {
 
   if (ref) {
     localStorage.setItem('referralCode', ref);
-    mensaje.textContent = `Has ingresado con la referencia de: ${ref}. ¡Gracias por confiar en tu amigo!`;
+    const totalReferidos = Number(localStorage.getItem('contadorReferidos') || '0') + 1;
+    localStorage.setItem('contadorReferidos', String(totalReferidos));
+    mensaje.textContent = `Has ingresado con la referencia de: ${ref}. ¡Gracias por confiar en tu amigo! (Referido #${totalReferidos})`;
   } else {
     const guardado = localStorage.getItem('referralCode');
     if (guardado) {
@@ -209,6 +211,85 @@ document.getElementById('btn-generar-qr').addEventListener('click', function (ev
 
 document.addEventListener('DOMContentLoaded', function () {
   actualizarMensajeReferencia();
+  renderProductos();
+  if (localStorage.getItem('adminLogged') === 'true') {
+    mostrarPanelAdmin();
+  }
+});
+
+// Productos
+const productosGrid = document.getElementById('productos-grid');
+
+const productos = [
+  {titulo: 'Mentoría financiera 1-a-1', descripcion: 'Sesiones semanales personalizadas para metas claras.', precio: 'COP 199,000', badge: 'Top'} ,
+  {titulo: 'Plan “Libertad de Deudas”', descripcion: 'Estrategias prácticas para pagar deudas en 6 meses.', precio: 'COP 129,000', badge: 'Recomendado'},
+  {titulo: 'Kit inversionista inicial', descripcion: 'Guías, herramientas y cálculos de retorno en 3 pasos.', precio: 'COP 179,000', badge: 'Nuevo'}
+];
+
+function renderProductos() {
+  if (!productosGrid) return;
+  productosGrid.innerHTML = productos.map(p => `
+    <article class="producto-card">
+      <h3>${p.titulo}</h3>
+      <p>${p.descripcion}</p>
+      <div class="precio">${p.precio}</div>
+      <span class="badge">${p.badge}</span>
+    </article>
+  `).join('');
+}
+
+// Admin
+const loginForm = document.getElementById('login-form');
+const loginMsg = document.getElementById('login-msg');
+const adminPanel = document.getElementById('adminPanel');
+const adminStats = document.getElementById('admin-stats');
+const logoutBtn = document.getElementById('logout-btn');
+
+const adminCredenciales = { usuario: 'admin', password: 'finance2026' };
+
+function mostrarPanelAdmin() {
+  adminPanel.classList.remove('hidden');
+  actualizarStatsAdmin();
+}
+
+function ocultarPanelAdmin() {
+  adminPanel.classList.add('hidden');
+}
+
+function actualizarStatsAdmin() {
+  const registros = JSON.parse(localStorage.getItem('registrosUsuarios') || '[]');
+  const referidos = Number(localStorage.getItem('contadorReferidos') || 0);
+  adminStats.innerHTML = `
+    <ul>
+      <li>Usuarios registrados: <strong>${registros.length}</strong></li>
+      <li>Referidos totales: <strong>${referidos}</strong></li>
+      <li>Ultimo usuario: <strong>${registros.length ? registros[registros.length-1].nombre : 'ninguno'}</strong></li>
+    </ul>
+  `;
+}
+
+loginForm.addEventListener('submit', function (event) {
+  event.preventDefault();
+  const user = document.getElementById('login-user').value.trim();
+  const pass = document.getElementById('login-pass').value.trim();
+
+  if (user === adminCredenciales.usuario && pass === adminCredenciales.password) {
+    localStorage.setItem('adminLogged', 'true');
+    loginMsg.textContent = 'Sesión de administrador iniciada.';
+    loginMsg.style.color = '#0f3e8f';
+    mostrarPanelAdmin();
+  } else {
+    loginMsg.textContent = 'Usuario o contraseña incorrectos.';
+    loginMsg.style.color = '#b81f1f';
+  }
+});
+
+logoutBtn.addEventListener('click', function (event) {
+  event.preventDefault();
+  localStorage.removeItem('adminLogged');
+  ocultarPanelAdmin();
+  loginMsg.textContent = 'Sesion cerrada.';
+  loginMsg.style.color = '#0f3e8f';
 });
 
 const formContacto = document.getElementById('formulario-contacto');

@@ -17,11 +17,14 @@
         <ul class="nav-list">
           <li><a href="#inicio">Inicio</a></li>
           <li><a href="#planes">Planes</a></li>
+          <li><a href="#productos">Productos</a></li>
           <li><a href="#beneficios">Beneficios</a></li>
           <li><a href="#testimonios">Testimonios</a></li>
           <li><a href="#faq">FAQ</a></li>
           <li><a href="#calculadora">Calculadora</a></li>
           <li><a href="#registro">Registro</a></li>
+          <li><a href="#auth">Login</a></li>
+          <li><a href="#adminPanel">Admin</a></li>
           <li><a href="#contacto">Contacto</a></li>
         </ul>
       </div>
@@ -159,6 +162,32 @@
         <img id="qr-image" src="" alt="QR de referencia" hidden />
         <a id="qr-enlace" href="#" target="_blank" rel="noopener" hidden></a>
       </div>
+    </section>
+
+    <section id="productos" class="form-section">
+      <h2>Productos premium</h2>
+      <p>Elige tu herramienta financiera según tus metas.</p>
+      <div class="productos-grid" id="productos-grid"></div>
+    </section>
+
+    <section id="auth" class="form-section">
+      <h2>Panel de acceso</h2>
+      <p>Login para administrador / registro normal (ya activo).</p>
+      <form id="login-form">
+        <label for="login-user">Usuario</label>
+        <input type="text" id="login-user" required />
+        <label for="login-pass">Contraseña</label>
+        <input type="password" id="login-pass" required />
+        <button type="submit" class="btn btn-primary">Iniciar sesión como Admin</button>
+      </form>
+      <p id="login-msg" class="resultado"></p>
+    </section>
+
+    <section id="adminPanel" class="form-section hidden">
+      <h2>Administración</h2>
+      <p>Panel seguro para ver registros, referidos y productos.</p>
+      <div id="admin-stats"></div>
+      <button id="logout-btn" class="btn btn-secondary">Cerrar sesión</button>
     </section>
 
     <section id="registro" class="form-section">
