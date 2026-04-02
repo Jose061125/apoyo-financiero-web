@@ -128,38 +128,8 @@ function agregarValidaciones(formulario) {
   });
 }
 
-const formAhorro = document.getElementById('formulario-ahorro');
-const resultado = document.getElementById('resultado');
-
 // Contador animado prueba social
 animarContadorRegistros(47);
-
-// Agregar validaciones en tiempo real al formulario de ahorro
-agregarValidaciones(formAhorro);
-
-formAhorro.addEventListener('submit', function (event) {
-  event.preventDefault();
-
-  const metaCampo = document.getElementById('meta');
-  const mesesCampo = document.getElementById('meses');
-
-  const metaValida = validarNumero(metaCampo, 0);
-  const mesesValida = validarNumero(mesesCampo, 0);
-
-  if (!metaValida || !mesesValida) {
-    resultado.textContent = 'Corrige los errores antes de calcular.';
-    resultado.style.color = '#b81f1f';
-    resultado.classList.add('show');
-    return;
-  }
-
-  const meta = Number(metaCampo.value);
-  const meses = Number(mesesCampo.value);
-  const ahorroMensual = meta / meses;
-  resultado.style.color = '#0f3e8f';
-  resultado.textContent = `Debes ahorrar ${ahorroMensual.toLocaleString('es-CO', { style: 'currency', currency: 'COP' })} al mes durante ${meses} meses para alcanzar ${meta.toLocaleString('es-CO', { style: 'currency', currency: 'COP' })}.`;
-  resultado.classList.add('show');
-});
 
 // ------ Referencia y QR ------
 function getQueryStringParam(param) {
