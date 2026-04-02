@@ -131,6 +131,60 @@ function agregarValidaciones(formulario) {
 // Contador animado prueba social
 animarContadorRegistros(47);
 
+// Multi-step form logic
+let currentStep = 1;
+const totalSteps = 3;
+
+function showStep(step) {
+  document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+  document.getElementById(`step${step}`).classList.add('active');
+  document.querySelectorAll('.step').forEach((s, i) => {
+    s.classList.toggle('active', i + 1 === step);
+    s.classList.toggle('completed', i + 1 < step);
+  });
+  currentStep = step;
+  updateResumen();
+}
+
+function nextStep() {
+  if (currentStep < totalSteps) {
+    showStep(currentStep + 1);
+  }
+}
+
+function prevStep() {
+  if (currentStep > 1) {
+    showStep(currentStep - 1);
+  }
+}
+
+function updateResumen() {
+  if (currentStep === 3) {
+    const nombre = document.getElementById('reg-nombre').value;
+    const email = document.getElementById('reg-email').value;
+    const telefono = document.getElementById('reg-telefono').value;
+    const objetivo = document.getElementById('reg-objetivo').value;
+    const newsletter = document.getElementById('reg-newsletter').checked ? 'Sí' : 'No';
+    const resumen = document.getElementById('resumen-registro');
+    if (resumen) {
+      resumen.innerHTML = `
+        <p><strong>Nombre:</strong> ${nombre}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Teléfono:</strong> ${telefono}</p>
+        <p><strong>Objetivo:</strong> ${objetivo}</p>
+        <p><strong>Newsletter:</strong> ${newsletter}</p>
+      `;
+    }
+  }
+}
+
+if (document.querySelector('.next-btn')) {
+  document.querySelectorAll('.next-btn').forEach(btn => btn.addEventListener('click', nextStep));
+}
+if (document.querySelector('.prev-btn')) {
+  document.querySelectorAll('.prev-btn').forEach(btn => btn.addEventListener('click', prevStep));
+}
+
 // ------ Referencia y QR ------
 function getQueryStringParam(param) {
   const urlParams = new URLSearchParams(window.location.search);
@@ -238,13 +292,29 @@ function actualizarStatsAdmin() {
   if (adminStats) {
     const registros = JSON.parse(localStorage.getItem('registrosUsuarios') || '[]');
     const referidos = Number(localStorage.getItem('contadorReferidos') || 0);
+    const productos = 5; // Placeholder, can be dynamic
     adminStats.innerHTML = `
-      <ul>
-        <li>Usuarios registrados: <strong>${registros.length}</strong></li>
-        <li>Referidos totales: <strong>${referidos}</strong></li>
-        <li>Ultimo usuario: <strong>${registros.length ? registros[registros.length-1].nombre : 'ninguno'}</strong></li>
-      </ul>
+      <div class="stat-card">
+        <h3>${registros.length}</h3>
+        <p>Usuarios Registrados</p>
+      </div>
+      <div class="stat-card">
+        <h3>${referidos}</h3>
+        <p>Referidos Totales</p>
+      </div>
+      <div class="stat-card">
+        <h3>${productos}</h3>
+        <p>Productos Disponibles</p>
+      </div>
     `;
+    // Update bar chart heights
+    const bars = document.querySelectorAll('.bar');
+    if (bars.length >= 3) {
+      const max = Math.max(registros.length, referidos, productos);
+      bars[0].style.height = `${(registros.length / max) * 100}%`;
+      bars[1].style.height = `${(referidos / max) * 100}%`;
+      bars[2].style.height = `${(productos / max) * 100}%`;
+    }
   }
 }
 
@@ -428,6 +498,7 @@ formRegistro.addEventListener('submit', function (event) {
   msgRegistro.textContent = `¡Bienvenido ${nombre}! Te has registrado exitosamente. Recibirás información en ${email}.`;
   msgRegistro.classList.add('show');
   formRegistro.reset();
+  ocultarCargando(btnRegistro, 'Registrarme');
 
   mostrarDashboardUsuario();
 

@@ -45,32 +45,56 @@
         <p><strong id="contador-registros">47</strong> personas se unieron en la última semana. ¡Sé el siguiente!</p>
       </div>
 
+      <div class="progress-bar">
+        <div class="step active" data-step="1">Información Personal</div>
+        <div class="step" data-step="2">Objetivos Financieros</div>
+        <div class="step" data-step="3">Confirmación</div>
+      </div>
+
       <form id="formulario-registro" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-        <label for="reg-nombre">Nombre completo</label>
-        <input type="text" id="reg-nombre" name="nombre" required />
+        <div class="form-step active" id="step1">
+          <h3>Paso 1: Información Personal</h3>
+          <label for="reg-nombre">Nombre completo</label>
+          <input type="text" id="reg-nombre" name="nombre" required />
 
-        <label for="reg-email">Correo electrónico</label>
-        <input type="email" id="reg-email" name="email" required />
+          <label for="reg-email">Correo electrónico</label>
+          <input type="email" id="reg-email" name="email" required />
 
-        <label for="reg-telefono">Teléfono (opcional)</label>
-        <input type="tel" id="reg-telefono" name="telefono" />
+          <label for="reg-telefono">Teléfono (opcional)</label>
+          <input type="tel" id="reg-telefono" name="telefono" />
 
-        <label for="reg-objetivo">¿Cuál es tu objetivo financiero principal?</label>
-        <select id="reg-objetivo" name="objetivo" required>
-          <option value="">Selecciona una opción</option>
-          <option value="ahorrar">Ahorrar más dinero</option>
-          <option value="deudas">Salir de deudas</option>
-          <option value="invertir">Aprender a invertir</option>
-          <option value="emprender">Emprender un negocio</option>
-          <option value="otro">Otro</option>
-        </select>
-
-        <div class="checkbox-group">
-          <input type="checkbox" id="reg-newsletter" name="newsletter" checked />
-          <label for="reg-newsletter">Quiero recibir el newsletter semanal con consejos financieros</label>
+          <button type="button" class="btn btn-primary next-btn">Siguiente</button>
         </div>
 
-        <button type="submit" class="btn btn-primary">Registrarme</button>
+        <div class="form-step" id="step2">
+          <h3>Paso 2: Objetivos Financieros</h3>
+          <label for="reg-objetivo">¿Cuál es tu objetivo financiero principal?</label>
+          <select id="reg-objetivo" name="objetivo" required>
+            <option value="">Selecciona una opción</option>
+            <option value="ahorrar">Ahorrar más dinero</option>
+            <option value="deudas">Salir de deudas</option>
+            <option value="invertir">Aprender a invertir</option>
+            <option value="emprender">Emprender un negocio</option>
+            <option value="otro">Otro</option>
+          </select>
+
+          <div class="checkbox-group">
+            <input type="checkbox" id="reg-newsletter" name="newsletter" checked />
+            <label for="reg-newsletter">Quiero recibir el newsletter semanal con consejos financieros</label>
+          </div>
+
+          <button type="button" class="btn btn-secondary prev-btn">Anterior</button>
+          <button type="button" class="btn btn-primary next-btn">Siguiente</button>
+        </div>
+
+        <div class="form-step" id="step3">
+          <h3>Paso 3: Confirmación</h3>
+          <p>Revisa tus datos y confirma el registro.</p>
+          <div id="resumen-registro"></div>
+
+          <button type="button" class="btn btn-secondary prev-btn">Anterior</button>
+          <button type="submit" class="btn btn-primary">Registrarme</button>
+        </div>
       </form>
       <div id="mensaje-registro" class="resultado"></div>
     </section>
