@@ -244,6 +244,7 @@ function renderProductos() {
 // Admin
 const loginForm = document.getElementById('login-form');
 const loginMsg = document.getElementById('login-msg');
+const auth = document.getElementById('auth');
 const adminPanel = document.getElementById('adminPanel');
 const adminStats = document.getElementById('admin-stats');
 const logoutBtn = document.getElementById('logout-btn');
@@ -251,49 +252,61 @@ const logoutBtn = document.getElementById('logout-btn');
 const adminCredenciales = { usuario: 'admin', password: 'finance2026' };
 
 function mostrarPanelAdmin() {
-  adminPanel.classList.remove('hidden');
-  actualizarStatsAdmin();
+  if (auth) auth.classList.add('hidden');
+  if (adminPanel) {
+    adminPanel.classList.remove('hidden');
+    actualizarStatsAdmin();
+  }
 }
 
 function ocultarPanelAdmin() {
-  adminPanel.classList.add('hidden');
+  if (adminPanel) adminPanel.classList.add('hidden');
+  if (auth) auth.classList.remove('hidden');
 }
 
 function actualizarStatsAdmin() {
-  const registros = JSON.parse(localStorage.getItem('registrosUsuarios') || '[]');
-  const referidos = Number(localStorage.getItem('contadorReferidos') || 0);
-  adminStats.innerHTML = `
-    <ul>
-      <li>Usuarios registrados: <strong>${registros.length}</strong></li>
-      <li>Referidos totales: <strong>${referidos}</strong></li>
-      <li>Ultimo usuario: <strong>${registros.length ? registros[registros.length-1].nombre : 'ninguno'}</strong></li>
-    </ul>
-  `;
+  if (adminStats) {
+    const registros = JSON.parse(localStorage.getItem('registrosUsuarios') || '[]');
+    const referidos = Number(localStorage.getItem('contadorReferidos') || 0);
+    adminStats.innerHTML = `
+      <ul>
+        <li>Usuarios registrados: <strong>${registros.length}</strong></li>
+        <li>Referidos totales: <strong>${referidos}</strong></li>
+        <li>Ultimo usuario: <strong>${registros.length ? registros[registros.length-1].nombre : 'ninguno'}</strong></li>
+      </ul>
+    `;
+  }
 }
 
-loginForm.addEventListener('submit', function (event) {
-  event.preventDefault();
-  const user = document.getElementById('login-user').value.trim();
-  const pass = document.getElementById('login-pass').value.trim();
+if (loginForm) {
+  loginForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    const user = document.getElementById('login-user').value.trim();
+    const pass = document.getElementById('login-pass').value.trim();
 
-  if (user === adminCredenciales.usuario && pass === adminCredenciales.password) {
-    localStorage.setItem('adminLogged', 'true');
-    loginMsg.textContent = 'Sesión de administrador iniciada.';
-    loginMsg.style.color = '#0f3e8f';
-    mostrarPanelAdmin();
-  } else {
-    loginMsg.textContent = 'Usuario o contraseña incorrectos.';
-    loginMsg.style.color = '#b81f1f';
-  }
-});
+    if (user === adminCredenciales.usuario && pass === adminCredenciales.password) {
+      localStorage.setItem('adminLogged', 'true');
+      loginMsg.textContent = 'Sesión de administrador iniciada.';
+      loginMsg.style.color = '#0f3e8f';
+      mostrarPanelAdmin();
+    } else {
+      loginMsg.textContent = 'Usuario o contraseña incorrectos.';
+      loginMsg.style.color = '#b81f1f';
+    }
+  });
+}
 
-logoutBtn.addEventListener('click', function (event) {
-  event.preventDefault();
-  localStorage.removeItem('adminLogged');
-  ocultarPanelAdmin();
-  loginMsg.textContent = 'Sesión cerrada.';
-  loginMsg.style.color = '#0f3e8f';
-});
+if (logoutBtn) {
+  logoutBtn.addEventListener('click', function (event) {
+    event.preventDefault();
+    localStorage.removeItem('adminLogged');
+    ocultarPanelAdmin();
+    if (loginMsg) {
+      loginMsg.textContent = 'Sesión cerrada.';
+      loginMsg.style.color = '#0f3e8f';
+    }
+  });
+}
 
 function mostrarDashboardUsuario() {
   const dashboard = document.getElementById('dashboard');

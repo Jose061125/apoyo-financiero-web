@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Administración - Apoyo Financiero</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="navbar">
+      <div class="container nav-container">
+        <a href="index.html" class="logo">Apoyo Financiero</a>
+        <ul class="nav-list">
+          <li><a href="index.html">Volver al sitio</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section id="auth" class="form-section">
+      <h2>Panel de acceso</h2>
+      <p>Login para administrador.</p>
+      <form id="login-form">
+        <label for="login-user">Usuario</label>
+        <input type="text" id="login-user" required />
+        <label for="login-pass">Contraseña</label>
+        <input type="password" id="login-pass" required />
+        <button type="submit" class="btn btn-primary">Iniciar sesión como Admin</button>
+      </form>
+      <p id="login-msg" class="resultado"></p>
+    </section>
+
+    <section id="adminPanel" class="form-section hidden">
+      <h2>Administración</h2>
+      <p>Panel seguro para ver registros, referidos y productos.</p>
+      <div id="admin-stats"></div>
+      <button id="logout-btn" class="btn btn-secondary">Cerrar sesión</button>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html></content>
+<parameter name="filePath">c:\MisProyectos\apoyo-financiero-web\admin.html
